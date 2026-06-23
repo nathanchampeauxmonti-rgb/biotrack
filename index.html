@@ -9,36 +9,39 @@
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="style.css" />
-
-
-
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <span class="logo">BioTrack</span>
-  </header>
+<!-- HEADER -->
+<header>
+  <span class="logo">BioTrack</span>
+</header>
 
-  <!-- MAIN -->
-  <main>
-    <div id="map-wrapper">
-      <div id="map-placeholder">La carte Leaflet s'affichera ici</div>
-      <div id="map" style="display:none;"></div>
+<!-- MAIN -->
+<main>
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <input type="checkbox" id="cb-global" checked />
+      <label for="cb-global">Requins</label>
     </div>
-  </main>
+    <ul id="shark-list"></ul>
+  </aside>
 
-  <!-- FOOTER -->
-  <footer>
-    <p class="footer-copy">BioTrack &copy; 2025</p>
+  <div id="map-wrapper">
+    <div id="map-placeholder">La carte Leaflet s'affichera ici</div>
+    <div id="map" style="display:none;"></div>
+  </div>
+</main>
 
+<!-- FOOTER -->
+<footer>
+  <p class="footer-copy">BioTrack &copy; 2026</p>
+</footer>
 
-  </footer>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="script.js"></script>
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
 
 </body>
 
