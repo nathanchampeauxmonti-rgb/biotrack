@@ -1,87 +1,158 @@
 /* ── Palette ── */
-    :root {
-      --ocean:     #1565A7;
-      --mist:      #F4F9FC;
-      --soft-gray: #8899A6;
-      --separator: rgba(21, 101, 167, 0.15);
-      --white:     #ffffff;
-      --text-dark: #1a2b3c;
-      --bg-dark:   #1c1c1e;
-    }
+:root {
+    --ocean:     #1565A7;
+    --mist:      #F4F9FC;
+    --soft-gray: #8899A6;
+    --separator: rgba(21, 101, 167, 0.15);
+    --white:     #ffffff;
+    --text-dark: #1a2b3c;
+    --bg-dark:   #1c1c1e;
+}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body {
-      height: 100%;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--mist);
-      color: var(--white);
-    }
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--mist);
+    color: var(--white);
+}
 
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-    /* ── Header ── */
-    header {
-      background: var(--white);
-      border-bottom: 1px solid var(--separator);
-      padding: 0 20px;
-      height: 56px;
-      display: flex;
-      border: 1px solid var(--separator);
-      align-items: center;
-    }
+/* ── Header ── */
+header {
+    background: var(--white);
+    border-bottom: 1px solid var(--separator);
+    padding: 0 20px;
+    height: 56px;
+    display: flex;
+    border: 1px solid var(--separator);
+    align-items: center;
+}
 
-    header .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--ocean);
-      letter-spacing: -0.5px;
-    }
+header .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ocean);
+    letter-spacing: -0.5px;
+}
 
-    /* ── Main ── */
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+/* ── Main ── */
+main {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
 
-    /* ── Map container ── */
-    #map-wrapper {
-      flex: 1;
-      background: var(--white); 
-      overflow: hidden;
-      min-height: 400px;
-    }
+/* ── Sidebar ── */
+#sidebar {
+    width: 260px;
+    background: var(--white);
+    border-right: 1px solid var(--separator);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
 
-    #map {
-      width: 100%;
-      height: 100%;
-      min-height: 400px;
-    }
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1rem 0.5rem;
+}
 
-    #map-placeholder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      min-height: 400px;
-      color: var(--soft-gray);
-      font-size: 1rem;
-    }
+.sidebar-header label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--soft-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+}
 
-    /* ── Footer ── */
-    footer {
-      background: var(--bg-dark);
-      padding: 1.5rem 2rem;
-    }
+.sidebar-header input[type="checkbox"] {
+    accent-color: var(--ocean);
+    cursor: pointer;
+}
 
-    /* Copyright line */
-    .footer-copy {
-      font-size: 0.8rem;
-      color: var(--soft-gray);
-    }
+#shark-list {
+    list-style: none;
+}
 
+#shark-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+}
+
+#shark-list li:hover {
+    background: var(--mist);
+}
+
+.shark-target {
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--soft-gray);
+    line-height: 1;
+    margin-left: auto;
+}
+
+.shark-target:hover {
+    color: var(--ocean);
+}
+
+#shark-list input[type="checkbox"] {
+    accent-color: var(--ocean);
+    cursor: pointer;
+}
+
+#shark-list .shark-name {
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+#shark-list .shark-name:hover {
+    color: var(--ocean);
+}
+
+/* ── Map container ── */
+#map-wrapper {
+    flex: 1;
+    background: var(--white);
+    overflow: hidden;
+    min-height: 400px;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+}
+
+#map-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 400px;
+    color: var(--soft-gray);
+    font-size: 1rem;
+}
+
+/* ── Footer ── */
+footer {
+    background: var(--bg-dark);
+    padding: 1.5rem 2rem;
+}
+
+/* Copyright line */
+.footer-copy {
+    font-size: 0.8rem;
+    color: var(--soft-gray);
+}
