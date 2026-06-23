@@ -1,0 +1,88 @@
+/* ── Palette ── */
+    :root {
+      --ocean:     #1565A7;
+      --mist:      #F4F9FC;
+      --soft-gray: #8899A6;
+      --separator: rgba(21, 101, 167, 0.15);
+      --white:     #ffffff;
+      --text-dark: #1a2b3c;
+      --bg-dark:   #1c1c1e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--mist);
+      color: var(--white);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--separator);
+      padding: 0 20px;
+      height: 56px;
+      display: flex;
+      border: 1px solid var(--separator);
+      align-items: center;
+    }
+
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ocean);
+      letter-spacing: -0.5px;
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Map container ── */
+    #map-wrapper {
+      flex: 1;
+      background: var(--white); 
+      overflow: hidden;
+      min-height: 400px;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      min-height: 400px;
+    }
+
+    #map-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 400px;
+      color: var(--soft-gray);
+      font-size: 1rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--bg-dark);
+      padding: 1.5rem 2rem;
+    }
+
+    /* Copyright line */
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--soft-gray);
+      margin-bottom: 1.25rem;
+    }
+
