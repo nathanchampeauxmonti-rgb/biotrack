@@ -58,6 +58,38 @@ main {
     flex-shrink: 0;
 }
 
+.sidebar-year {
+    padding: 1rem;
+    border-bottom: 1px solid var(--separator);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.sidebar-year label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--soft-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sidebar-year select {
+    background: var(--white);
+    border: 1px solid var(--separator);
+    border-radius: 6px;
+    color: var(--text-dark);
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.sidebar-year select:focus {
+    outline: none;
+    border-color: var(--ocean);
+}
+
 .sidebar-header {
     display: flex;
     align-items: center;
