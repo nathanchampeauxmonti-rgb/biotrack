@@ -142,6 +142,17 @@ try {
     });
 
     loadYear(2019);
+
+    document.getElementById('shark-search').addEventListener('input', function () {
+        var query = this.value.toLowerCase();
+        document.querySelectorAll('#shark-list li').forEach(function (li) {
+            var name = li.querySelector('.shark-name').textContent.toLowerCase();
+            li.style.display = name.includes(query) ? 'flex' : 'none';
+        });
+    });
+
+
+
 } catch (e) {
     document.getElementById('map-placeholder').style.display = 'flex';
     document.getElementById('map').style.display = 'none';
