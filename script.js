@@ -32,6 +32,7 @@ try {
             .catch(function (err) { console.error("Erreur chargement JSON :", err); });
     }
 
+
     document.getElementById('map-placeholder').style.display = 'none';
     document.getElementById('map').style.display = 'block';
     document.getElementById('year-select').addEventListener('change', function () {
@@ -126,7 +127,7 @@ try {
                 }).addTo(map);
             });
 
-            markers[shark.name] = { marker: marker, polyline: polyline, dots: dots, lat: last.lat, lng: last.lng };
+            markers[shark.name] = { marker: marker, polyline: polyline, dots: dots, lat: last.lat, lng: last.lng, weight: shark.weight, length: shark.length };
 
             // Create list item
             var li = document.createElement('li');
@@ -189,6 +190,12 @@ try {
     });
 
     loadYear(2019);
+    
+    document.querySelectorAll('.accordion-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+        this.closest('.accordion').classList.toggle('open');
+    });
+});
 
     document.getElementById('shark-search').addEventListener('input', function () {
         var query = this.value.toLowerCase();
@@ -196,6 +203,50 @@ try {
             var name = li.querySelector('.shark-name').textContent.toLowerCase();
             li.style.display = name.includes(query) ? 'flex' : 'none';
         });
+    });
+
+    document.getElementById('btn-filter').addEventListener('click', function () {
+        var wMin = parseFloat(document.getElementById('filter-weight-min').value) || 0;
+        var wMax = parseFloat(document.getElementById('filter-weight-max').value) || Infinity;
+        var lMin = parseFloat(document.getElementById('filter-length-min').value) || 0;
+        var lMax = parseFloat(document.getElementById('filter-length-max').value) || Infinity;
+
+        document.querySelectorAll('#shark-list li').forEach(function (li) {
+            var name = li.querySelector('.shark-name').textContent;
+            var info = markers[name];
+            if (!info) return;
+
+            var w = info.weight;
+            var l = info.length;
+
+            var visible = (w == null || (w >= wMin && w <= wMax)) &&
+                (l == null || (l >= lMin && l <= lMax));
+
+            li.style.display = visible ? 'flex' : 'none';
+            var cb = document.getElementById('cb-' + name);
+            if (cb) {
+                cb.checked = visible;
+                toggleShark(name, visible);
+            }
+        });
+    });
+    
+    document.getElementById('btn-filter-reset').addEventListener('click', function () {
+        document.getElementById('filter-weight-min').value = '';
+        document.getElementById('filter-weight-max').value = '';
+        document.getElementById('filter-length-min').value = '';
+        document.getElementById('filter-length-max').value = '';
+
+        document.querySelectorAll('#shark-list li').forEach(function (li) {
+            li.style.display = 'flex';
+            var name = li.querySelector('.shark-name').textContent;
+            var cb = document.getElementById('cb-' + name);
+            if (cb && !cb.checked) {
+                cb.checked = true;
+                toggleShark(name, true);
+            }
+        });
+        updateGlobalCheckbox();
     });
 
     var darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
