@@ -207,6 +207,8 @@ try {
         // Build sorted timeline
         playbackPoints = [];
         Object.keys(markers).forEach(function (name) {
+            var cb = document.getElementById('cb-' + name);
+            if (!cb || !cb.checked) return; // ignore les requins filtrés
             var info = markers[name];
             map.removeLayer(info.marker);
             map.removeLayer(info.polyline);
@@ -231,7 +233,10 @@ try {
                 playbackTimer = null;
                 document.getElementById('btn-play').textContent = '▶';
                 Object.keys(markers).forEach(function (name) {
-                    markers[name].marker.addTo(map);
+                    var cb = document.getElementById('cb-' + name);
+                    if (cb && cb.checked) {
+                        markers[name].marker.addTo(map);
+                    }
                 });
                 return;
             }

@@ -67,23 +67,26 @@ header .logo {
 
 /* ── Footer (inside sidebar) ── */
 footer {
-    background: var(--bg-dark);
+    background: var(--white);
     padding: 1rem 1.2rem;
     flex-shrink: 0;
+    border-top: 1px solid var(--separator);
+
 }
 
 .footer-copy {
     font-size: 0.8rem;
-    color: var(--soft-gray);
+    color: var(--text-dark);
+
 }
 
 .footer-copy a {
-    color: var(--soft-gray);
+    color: var(--text-dark);
     text-decoration: none;
 }
 
 .footer-copy a:hover {
-    color: var(--white);
+    color: var(--bg-dark);
 }
 
 /* ── Sidebar sections ── */
@@ -250,6 +253,19 @@ body.dark header {
 
 body.dark footer {
     background: #1c1c1e;
+}
+
+body.dark .footer-copy {
+    color: var(--soft-gray);
+
+}
+
+body.dark .footer-copy a {
+    color: var(--soft-gray);
+}
+
+body.dark .footer-copy a:hover {
+    color: var(--soft-gray);
 }
 
 body.dark .sidebar-year select,
