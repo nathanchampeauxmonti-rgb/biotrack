@@ -387,3 +387,43 @@ body.dark #btn-dark {
 .accordion.open .accordion-body {
     display: block;
 }
+
+#playback-bar {
+    border-top: 1px solid var(--separator);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    background: var(--white);
+}
+
+#btn-play {
+    background: none;
+    border: 1px solid var(--separator);
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    color: var(--text-dark);
+}
+
+#playback-date {
+    font-size: 0.8rem;
+    color: var(--text-dark);
+    font-variant-numeric: tabular-nums;
+}
+
+body.dark #playback-bar {
+    background: #2c2c2e;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark #btn-play {
+    color: #e0e0e0;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark #playback-date {
+    color: #e0e0e0;
+}

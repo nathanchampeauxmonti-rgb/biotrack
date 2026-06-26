@@ -1,4 +1,4 @@
-console.log("Initialisation de la carte");
+console.log('Initialisation de la carte');
 
 try {
     // Store markers per shark name
@@ -11,8 +11,9 @@ try {
         '#CB4335', '#1A5276', '#148F77', '#D35400', '#7D3C98'
     ];
     let colorIndex = 0;
+
     function clearSharks() {
-        console.log("clearSharks");
+        console.log('clearSharks');
         Object.values(markers).forEach(function (info) {
             map.removeLayer(info.marker);
             map.removeLayer(info.polyline);
@@ -24,19 +25,18 @@ try {
     }
 
     function loadYear(year) {
-        console.log("loadYear");
+        console.log('loadYear');
         clearSharks();
-        fetch("data/sharks-" + year + ".json")
+        fetch('data/sharks-' + year + '.json')
             .then(function (res) { return res.json(); })
             .then(function (data) { loadSharks(data); })
-            .catch(function (err) { console.error("Erreur chargement JSON :", err); });
+            .catch(function (err) { console.error('Erreur chargement JSON :', err); });
     }
-
 
     document.getElementById('map-placeholder').style.display = 'none';
     document.getElementById('map').style.display = 'block';
     document.getElementById('year-select').addEventListener('change', function () {
-        console.log("year-select:change");
+        console.log('year-select:change');
         loadYear(this.value);
     });
 
@@ -73,8 +73,7 @@ try {
         var noneChecked = true;
 
         checkboxes.forEach(function (cb) {
-            if (cb.checked) { noneChecked = false; }
-            else { allChecked = false; }
+            if (cb.checked) { noneChecked = false; } else { allChecked = false; }
         });
 
         var globalCb = document.getElementById('cb-global');
@@ -91,17 +90,17 @@ try {
 
             // Create marker
             var last = shark.locations[shark.locations.length - 1];
-            var weight = shark.weight != null ? shark.weight + " kg" : "N/A";
-            var length = shark.length != null ? shark.length + " cm" : "N/A";
+            var weight = shark.weight != null ? shark.weight + ' kg' : 'N/A';
+            var length = shark.length != null ? shark.length + ' cm' : 'N/A';
 
             var marker = L.marker([last.lat, last.lng])
                 .addTo(map)
                 .bindPopup(
-                    "<strong>" + shark.name + "</strong><br>" +
-                    "🦈 " + shark.species + "<br>" +
-                    shark.gender + "<br>" +
-                    "⚖️ " + weight + " | 📏 " + length + "<br>" +
-                    "📅 " + last.timestamp
+                    '<strong>' + shark.name + '</strong><br>' +
+                    '🦈 ' + shark.species + '<br>' +
+                    shark.gender + '<br>' +
+                    '⚖️ ' + weight + ' | 📏 ' + length + '<br>' +
+                    '📅 ' + last.timestamp
                 );
             var latlngs = shark.locations.map(function (loc) {
                 return [loc.lat, loc.lng];
@@ -117,14 +116,15 @@ try {
             }).addTo(map);
 
             var dots = shark.locations.map(function (loc) {
-                return L.circleMarker([loc.lat, loc.lng], {
-
+                var cm = L.circleMarker([loc.lat, loc.lng], {
                     radius: 5,
                     color: color,
                     fillColor: color,
                     fillOpacity: 1,
                     weight: 0
                 }).addTo(map);
+                cm._ts = loc.timestamp;
+                return cm;
             });
 
             markers[shark.name] = { marker: marker, polyline: polyline, dots: dots, lat: last.lat, lng: last.lng, weight: shark.weight, length: shark.length };
@@ -190,12 +190,76 @@ try {
     });
 
     loadYear(2019);
-    
-    document.querySelectorAll('.accordion-header').forEach(function(header) {
-    header.addEventListener('click', function() {
-        this.closest('.accordion').classList.toggle('open');
+
+    // ── Playback ──
+    var playbackTimer = null;
+    var playbackPoints = [];
+    var playbackIndex = 0;
+
+    document.getElementById('btn-play').addEventListener('click', function () {
+        if (playbackTimer) {
+            clearInterval(playbackTimer);
+            playbackTimer = null;
+            this.textContent = '▶';
+            return;
+        }
+
+        // Build sorted timeline
+        playbackPoints = [];
+        Object.keys(markers).forEach(function (name) {
+            var info = markers[name];
+            map.removeLayer(info.marker);
+            map.removeLayer(info.polyline);
+            info.polyline.setLatLngs([]);
+            info.dots.forEach(function (dot) { map.removeLayer(dot); });
+
+            info.dots.forEach(function (dot, i) {
+                playbackPoints.push({ name: name, dotIndex: i, dot: dot, timestamp: dot._ts });
+            });
+        });
+
+        playbackPoints.sort(function (a, b) {
+            return a.timestamp < b.timestamp ? -1 : a.timestamp > b.timestamp ? 1 : 0;
+        });
+
+        playbackIndex = 0;
+        this.textContent = '⏸';
+
+        playbackTimer = setInterval(function () {
+            if (playbackIndex >= playbackPoints.length) {
+                clearInterval(playbackTimer);
+                playbackTimer = null;
+                document.getElementById('btn-play').textContent = '▶';
+                Object.keys(markers).forEach(function (name) {
+                    markers[name].marker.addTo(map);
+                });
+                return;
+            }
+
+            var pt = playbackPoints[playbackIndex];
+            pt.dot.addTo(map);
+
+            var info = markers[pt.name];
+            var latlngs = [];
+            for (var i = 0; i <= pt.dotIndex; i++) {
+                latlngs.push(info.dots[i].getLatLng());
+            }
+            info.polyline.setLatLngs(latlngs);
+            if (!map.hasLayer(info.polyline)) info.polyline.addTo(map);
+
+            info.marker.setLatLng(pt.dot.getLatLng());
+            if (!map.hasLayer(info.marker)) info.marker.addTo(map);
+
+            document.getElementById('playback-date').textContent = pt.timestamp.slice(0, 10);
+            playbackIndex++;
+        }, 10);
     });
-});
+
+    document.querySelectorAll('.accordion-header').forEach(function (header) {
+        header.addEventListener('click', function () {
+            this.closest('.accordion').classList.toggle('open');
+        });
+    });
 
     document.getElementById('shark-search').addEventListener('input', function () {
         var query = this.value.toLowerCase();
@@ -230,7 +294,7 @@ try {
             }
         });
     });
-    
+
     document.getElementById('btn-filter-reset').addEventListener('click', function () {
         document.getElementById('filter-weight-min').value = '';
         document.getElementById('filter-weight-max').value = '';
@@ -273,5 +337,5 @@ try {
 } catch (e) {
     document.getElementById('map-placeholder').style.display = 'flex';
     document.getElementById('map').style.display = 'none';
-    console.error("Erreur d'initialisation de la carte :", e);
+    console.error('Erreur d\'initialisation de la carte :', e);
 }
